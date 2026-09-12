@@ -1,0 +1,807 @@
+/* =========================================================
+   CARS FOR SPEED — 16-BIT SEGA OUTRUN & 100 OCTANE STYLING
+   ========================================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #050711;
+  color: #e2e8f0;
+  font-family: 'Space Mono', monospace;
+  min-height: 100vh;
+  padding: 24px 16px 60px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   RETRO ARCADE ECU BOOT / LOADING SCREEN STYLES
+   ========================================================= */
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #04050a;
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.loader-overlay.fade-out {
+  opacity: 0;
+  transform: scale(1.04);
+  pointer-events: none;
+}
+
+.loader-box {
+  width: 100%;
+  max-width: 520px;
+  background: #0c101c;
+  border: 2px solid #ef4444;
+  box-shadow: 8px 8px 0px #000;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.loader-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #facc15;
+  border-bottom: 1px dashed #242c3d;
+  padding-bottom: 10px;
+}
+
+.loader-terminal {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: #94a3b8;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 110px;
+}
+
+.term-line {
+  color: #38bdf8;
+}
+
+.loader-meter-wrap {
+  width: 100%;
+  height: 14px;
+  background: #030408;
+  border: 1px solid #242c3d;
+  overflow: hidden;
+}
+
+.loader-meter-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #facc15 0%, #ef4444 100%);
+  transition: width 0.12s linear;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.loader-footer {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #facc15;
+}
+
+.blink-btn {
+  color: #22c55e;
+  animation: blink 0.8s infinite alternate;
+}
+
+@keyframes blink {
+  0% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+
+/* =========================================================
+   RETRO GRAPHIC BACKGROUND (FULL SCREEN ARCADE HIGHWAY)
+   ========================================================= */
+.retro-bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, #1e1035 0%, #080614 70%, #030308 100%);
+}
+
+.retro-sun {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffdd00 0%, #ff4400 60%, #ff0055 100%);
+  box-shadow: 0 0 60px rgba(255, 68, 0, 0.6);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%, black 50%,
+    transparent 50%, transparent 54%,
+    black 54%, black 65%,
+    transparent 65%, transparent 70%,
+    black 70%, black 82%,
+    transparent 82%, transparent 88%,
+    black 88%, black 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%, black 50%,
+    transparent 50%, transparent 54%,
+    black 54%, black 65%,
+    transparent 65%, transparent 70%,
+    black 70%, black 82%,
+    transparent 82%, transparent 88%,
+    black 88%, black 100%
+  );
+}
+
+.retro-city {
+  position: absolute;
+  top: calc(45% - 50px);
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-repeat: repeat-x;
+  background-size: 320px 50px;
+  background-image: 
+    linear-gradient(to right, 
+      #090d1f 0px, #090d1f 25px,
+      transparent 25px, transparent 30px,
+      #0e142c 30px, #0e142c 60px,
+      transparent 60px, transparent 65px,
+      #080b18 65px, #080b18 110px,
+      transparent 110px, transparent 115px,
+      #141938 115px, #141938 145px,
+      transparent 145px, transparent 150px,
+      #090d1f 150px, #090d1f 210px,
+      transparent 210px, transparent 220px,
+      #101530 220px, #101530 270px,
+      transparent 270px, transparent 320px
+    );
+  border-bottom: 2px solid #ef4444;
+  opacity: 0.85;
+}
+
+.retro-highway-grid {
+  position: absolute;
+  top: 45%;
+  left: -50%;
+  width: 200%;
+  height: 60%;
+  transform: perspective(250px) rotateX(65deg);
+  transform-origin: top center;
+  background-image: 
+    linear-gradient(90deg, rgba(239, 68, 68, 0.35) 2px, transparent 2px),
+    linear-gradient(0deg, rgba(56, 189, 248, 0.35) 2px, transparent 2px);
+  background-size: 80px 40px;
+  animation: gridDrive 0.4s linear infinite;
+}
+
+@keyframes gridDrive {
+  from { background-position-y: 0px; }
+  to { background-position-y: 40px; }
+}
+
+.scanlines {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.32) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.vignette {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  box-shadow: inset 0 0 130px rgba(0, 0, 0, 0.92);
+  pointer-events: none;
+  z-index: 998;
+}
+
+.main-wrapper {
+  max-width: 840px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  z-index: 10;
+}
+
+.arcade-card {
+  background: rgba(10, 14, 24, 0.94);
+  border: 2px solid #242c3d;
+  box-shadow: 6px 6px 0px #000;
+  border-radius: 4px;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+
+.header-card {
+  padding: 24px;
+  text-align: center;
+  border-color: #ef4444;
+  background: linear-gradient(180deg, rgba(239, 68, 68, 0.2) 0%, rgba(10, 14, 24, 0.96) 100%);
+}
+
+.header-hud {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #94a3b8;
+  margin-bottom: 12px;
+}
+
+.status-live {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+.dyno-status {
+  color: #facc15;
+}
+
+.main-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(20px, 4.5vw, 34px);
+  color: #fff;
+  text-shadow: 
+    3px 3px 0 #ef4444, 
+    5px 5px 0 #000;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+
+.main-sub {
+  font-size: 12px;
+  color: #facc15;
+}
+
+.card-topbar {
+  background: #151c2c;
+  border-bottom: 2px solid #242c3d;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot-btn {
+  width: 10px;
+  height: 10px;
+  border: 1px solid #000;
+  display: inline-block;
+}
+.d-red { background: #ef4444; }
+.d-yellow { background: #facc15; }
+.d-green { background: #22c55e; }
+
+.bar-title {
+  font-size: 11px;
+  color: #94a3b8;
+  letter-spacing: 1px;
+}
+
+.dyno-body {
+  padding: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+}
+
+.car-visual-bay {
+  flex: 1;
+  min-width: 280px;
+  background: #05070e;
+  border: 2px dashed #334155;
+  padding: 16px;
+  text-align: center;
+}
+
+.retro-drive-stage {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  background: #080c18;
+  border: 1px solid #1e2638;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.sky-horizon {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 50px;
+  background: linear-gradient(180deg, #050711 0%, #1e1b4b 70%, #ef4444 100%);
+  border-bottom: 1px dashed rgba(250, 204, 21, 0.4);
+}
+
+.highway-road {
+  position: absolute;
+  top: 50px; left: 0; width: 100%; height: 110px;
+  background: #0f172a;
+  perspective: 120px;
+}
+
+.road-line {
+  position: absolute;
+  width: 3px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    180deg,
+    #facc15 0px,
+    #facc15 15px,
+    transparent 15px,
+    transparent 35px
+  );
+  animation: roadStream 0.3s linear infinite;
+}
+
+.line-left { left: 25%; transform: rotate(18deg); }
+.line-center { left: 50%; width: 4px; }
+.line-right { right: 25%; transform: rotate(-18deg); }
+
+@keyframes roadStream {
+  from { background-position-y: 0px; }
+  to { background-position-y: 35px; }
+}
+
+.forward-car {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 80px;
+  z-index: 5;
+  animation: carIdle 0.15s infinite alternate;
+}
+
+@keyframes carIdle {
+  0% { transform: translateX(-50%) translateY(0); }
+  100% { transform: translateX(-50%) translateY(-1.5px); }
+}
+
+.car-pixel-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.6));
+}
+
+.tail-light {
+  animation: lightFlicker 0.2s infinite alternate;
+}
+
+@keyframes lightFlicker {
+  0% { fill: #ff0044; }
+  100% { fill: #ff4d79; }
+}
+
+.flame-left, .flame-right {
+  position: absolute;
+  bottom: 12px;
+  width: 6px;
+  height: 10px;
+  background: #38bdf8;
+  border-radius: 3px;
+  box-shadow: 0 0 8px #38bdf8;
+  animation: flamePop 0.12s infinite alternate;
+}
+
+.flame-left { left: 28px; }
+.flame-right { right: 28px; }
+
+@keyframes flamePop {
+  0% { height: 6px; opacity: 0.3; }
+  100% { height: 14px; opacity: 1; }
+}
+
+.telemetry-gauge {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.redline-alert {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+.gauge-track {
+  width: 100%;
+  height: 12px;
+  background: #111;
+  border: 1px solid #334155;
+}
+
+.gauge-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e 0%, #facc15 65%, #ef4444 95%);
+  animation: revCycle 2.2s infinite ease-in-out;
+}
+
+@keyframes revCycle {
+  0% { width: 25%; }
+  50% { width: 94%; }
+  75% { width: 68%; }
+  100% { width: 25%; }
+}
+
+.manifold-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #facc15;
+  margin-top: 4px;
+}
+
+.tuner-profile {
+  flex: 1.3;
+  min-width: 260px;
+}
+
+.octane-badge {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #facc15;
+  background: rgba(250, 204, 21, 0.1);
+  padding: 4px 8px;
+  border: 1px solid #facc15;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.tuner-profile h2 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.profile-bio {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin-bottom: 16px;
+}
+
+.gearhead-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.g-tag {
+  font-size: 11px;
+  color: #38bdf8;
+  background: #141b29;
+  border: 1px solid #242c3d;
+  padding: 3px 8px;
+}
+
+/* SECTION 2: 16-BIT OUTRUN PERSPECTIVE ARCADE GAME */
+.game-section {
+  border-color: #ef4444;
+}
+
+.game-wrapper {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #080b12;
+}
+
+.game-hud {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #facc15;
+  background: #020408;
+  border: 1px solid #242c3d;
+  padding: 8px 12px;
+}
+
+.canvas-container {
+  position: relative;
+  width: 340px;
+  height: 420px;
+  background: #030407;
+  border: 3px solid #242c3d;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+#racerCanvas {
+  display: block;
+  background: #090c15;
+  image-rendering: pixelated;
+}
+
+.game-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(4, 6, 12, 0.88);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.overlay-card {
+  text-align: center;
+  padding: 20px;
+  background: #111726;
+  border: 2px solid #ef4444;
+  box-shadow: 4px 4px 0 #000;
+  max-width: 290px;
+}
+
+.overlay-card h3 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: #ef4444;
+  margin-bottom: 10px;
+}
+
+.overlay-card p {
+  font-size: 10px;
+  color: #cbd5e1;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.btn-play {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  background: #ef4444;
+  color: #fff;
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 #000;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.btn-play:hover {
+  background: #dc2626;
+  transform: translate(1px, 1px);
+}
+
+.game-controls-hint {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 9px;
+  color: #94a3b8;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* SECTION 3: Fleet Grid */
+.fleet-grid {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+}
+
+.fleet-machine {
+  background: #080b12;
+  border: 1px solid #1e2638;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  transition: border-color 0.15s;
+}
+
+.fleet-machine:hover {
+  border-color: #ef4444;
+}
+
+.machine-class {
+  font-size: 10px;
+  color: #facc15;
+  font-weight: bold;
+}
+
+.fleet-machine h3 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: #fff;
+  line-height: 1.4;
+}
+
+.fleet-machine p {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.spec-readout {
+  border-top: 1px dashed #1e2638;
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 10px;
+}
+
+.s-row {
+  display: flex;
+  justify-content: space-between;
+  color: #38bdf8;
+}
+
+.s-row span:first-child {
+  color: #94a3b8;
+}
+
+.engine-btn {
+  display: block;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  text-decoration: none;
+  background: #ef4444;
+  color: #fff;
+  padding: 10px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.engine-btn:hover {
+  background: #dc2626;
+}
+
+.engine-btn.disabled {
+  background: #161d2a;
+  color: #64748b;
+  border-color: #242c3d;
+  box-shadow: none;
+}
+
+/* SECTION 4: Telemetry & Calibration */
+.telemetry-layout {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 650px) {
+  .telemetry-layout { grid-template-columns: 1fr; }
+}
+
+.dyno-channels h4, .race-checklist h4 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #facc15;
+  margin-bottom: 14px;
+}
+
+.channel-unit {
+  margin-bottom: 10px;
+}
+
+.channel-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #cbd5e1;
+  margin-bottom: 3px;
+}
+
+.gauge-slot {
+  height: 10px;
+  background: #05070c;
+  border: 1px solid #242c3d;
+}
+
+.gauge-core {
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8, #ef4444);
+}
+
+.race-checklist {
+  background: #080b12;
+  border: 1px dashed #242c3d;
+  padding: 14px;
+}
+
+.lap-targets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.flag.ok { color: #22c55e; }
+.flag.pit { color: #facc15; }
+
+.footer-card {
+  padding: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkered-stripe {
+  width: 100%;
+  height: 6px;
+  background: 
+    conic-gradient(#fff 90deg, #000 90deg 180deg, #fff 180deg 270deg, #000 270deg);
+  background-size: 8px 8px;
+}
+
+.footer-msg {
+  font-size: 11px;
+  color: #facc15;
+}
+
+.pit-links {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  font-size: 11px;
+}
+
+.pit-links a {
+  color: #38bdf8;
+  text-decoration: none;
+}
+
+.pit-links a:hover {
+  color: #ef4444;
+}

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CARS FOR SPEED // 100 OCTANE TUNER GARAGE</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- RETRO ARCADE ECU BOOT / LOADING SCREEN -->
+  <div id="arcade-loader" class="loader-overlay">
+    <div class="loader-box">
+      <div class="loader-header">
+        <span class="dot-btn d-red"></span>
+        <span class="dot-btn d-yellow"></span>
+        <span class="dot-btn d-green"></span>
+        <span>SEGA_OUTRUN_ROM // v3.08</span>
+      </div>
+      <div class="loader-terminal">
+        <p class="term-line">&gt; INITIALIZING 100-OCTANE ECU FIRMWARE...</p>
+        <p class="term-line">&gt; LOADING PSEUDO-3D RASTER ROAD PROJECTION...</p>
+        <p class="term-line">&gt; SPOOLING TWIN TURBOCHARGERS... [OK]</p>
+        <p class="term-line">&gt; CALIBRATING PARALLAX HORIZON &amp; SPRITE HITBOXES...</p>
+        <p class="term-line">&gt; OUTRUN ENGINE ONLINE: READY TO RACE!</p>
+      </div>
+      <div class="loader-meter-wrap">
+        <div class="loader-meter-bar" id="loader-bar"></div>
+      </div>
+      <div class="loader-footer">
+        <span id="loader-status">LOADING STAGE: 0%</span>
+        <span class="blink-btn">[READY]</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full-Screen Retro Highway & Synth Sun Background -->
+  <div class="retro-bg-canvas">
+    <div class="retro-sun"></div>
+    <div class="retro-city"></div>
+    <div class="retro-highway-grid"></div>
+  </div>
+
+  <!-- CRT Scanlines & Vignette -->
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+
+  <div class="main-wrapper">
+
+    <!-- Top Racing Telemetry HUD -->
+    <header class="arcade-card header-card">
+      <div class="header-hud">
+        <span class="status-live">● LIVE MAP: 100 OCTANE RACE GAS</span>
+        <span class="dyno-status">STAGE 1: COCONUT COAST // OUTRUN 1986</span>
+      </div>
+      <h1 class="main-title">CARS FOR SPEED</h1>
+      <p class="main-sub">&gt;&gt;&gt; HIGH-VELOCITY HARDWARE, MECHANICAL CODE &amp; 16-BIT TELEMETRY &lt;&lt;&lt;</p>
+    </header>
+
+    <!-- SECTION 1: Dyno & Animated Retro Pixel Highway Racer -->
+    <section class="arcade-card">
+      <div class="card-topbar">
+        <span class="dot-btn d-red"></span>
+        <span class="dot-btn d-yellow"></span>
+        <span class="dot-btn d-green"></span>
+        <span class="bar-title">GARAGE_BAY_01 // HIGHWAY_DYNO_BENCH.EXE</span>
+      </div>
+      
+      <div class="dyno-body">
+        <div class="car-visual-bay">
+          <div class="retro-drive-stage">
+            <div class="sky-horizon"></div>
+            <div class="highway-road">
+              <div class="road-line line-left"></div>
+              <div class="road-line line-center"></div>
+              <div class="road-line line-right"></div>
+            </div>
+            
+            <!-- Rear-View Pixel Sports Car -->
+            <div class="forward-car">
+              <div class="flame-left"></div>
+              <div class="flame-right"></div>
+              <svg viewBox="0 0 100 70" class="car-pixel-svg">
+                <rect x="15" y="10" width="70" height="6" fill="#dc2626" />
+                <rect x="25" y="16" width="6" height="8" fill="#7f1d1d" />
+                <rect x="69" y="16" width="6" height="8" fill="#7f1d1d" />
+                <rect x="28" y="16" width="44" height="14" fill="#111827" />
+                <rect x="34" y="18" width="32" height="10" fill="#38bdf8" opacity="0.8" />
+                <rect x="18" y="24" width="64" height="24" fill="#ef4444" />
+                <rect x="22" y="26" width="56" height="4" fill="#f87171" />
+                <rect x="22" y="32" width="16" height="8" fill="#ff0044" class="tail-light" />
+                <rect x="62" y="32" width="16" height="8" fill="#ff0044" class="tail-light" />
+                <rect x="42" y="34" width="16" height="6" fill="#030712" />
+                <rect x="44" y="36" width="12" height="3" fill="#facc15" />
+                <rect x="26" y="48" width="8" height="6" fill="#64748b" />
+                <rect x="66" y="48" width="8" height="6" fill="#64748b" />
+                <rect x="10" y="36" width="10" height="22" fill="#030712" />
+                <rect x="80" y="36" width="10" height="22" fill="#030712" />
+                <rect x="12" y="40" width="6" height="14" fill="#1f2937" />
+                <rect x="82" y="40" width="6" height="14" fill="#1f2937" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="telemetry-gauge">
+            <div class="gauge-labels">
+              <span>RPM: 8500 [TWIN TURBO SPOOL]</span>
+              <span class="redline-alert">REDLINE: 9K RPM</span>
+            </div>
+            <div class="gauge-track">
+              <div class="gauge-fill"></div>
+            </div>
+            <div class="manifold-stats">
+              <span>BOOST: 2.2 BAR</span>
+              <span>OCTANE: 100 RON</span>
+              <span>TOP SPEED: 299 KM/H</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tuner-profile">
+          <div class="octane-badge">DRIVER &amp; BUILDER PROFILE</div>
+          <h2>DENNIS PATHE</h2>
+          <p class="profile-bio">
+            Tenth-standard student, competitive problem solver (IOQM), and systems builder from Maharashtra. 
+            I build things tuned for speed—from pure hand-rolled web operating systems and high-ratio mountain bike descents to bare-silicon C firmware on microcontrollers.
+          </p>
+          <div class="gearhead-tags">
+            <span class="g-tag">TWIN-TURBO BOOST</span>
+            <span class="g-tag">LOW-LEVEL C</span>
+            <span class="g-tag">VANILLA JS</span>
+            <span class="g-tag">ARDUINO IDE</span>
+            <span class="g-tag">21-GEAR MTB</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: 16-BIT OUTRUN PERSPECTIVE ARCADE GAME -->
+    <section class="arcade-card game-section">
+      <div class="card-topbar">
+        <span class="dot-btn d-red"></span>
+        <span class="dot-btn d-yellow"></span>
+        <span class="dot-btn d-green"></span>
+        <span class="bar-title">MINIGAME // SEGA_OUTRUN_16BIT_ENGINE.ROM</span>
+      </div>
+      <div class="game-wrapper">
+        <div class="game-hud">
+          <div class="hud-stat">TIME: <span id="game-time">45</span>s</div>
+          <div class="hud-stat">SCORE: <span id="game-score">0</span></div>
+          <div class="hud-stat">SPEED: <span id="game-speed">0</span> KM/H</div>
+        </div>
+
+        <div class="canvas-container">
+          <canvas id="racerCanvas" width="340" height="420"></canvas>
+          <div id="game-overlay" class="game-overlay">
+            <div class="overlay-card">
+              <h3 id="overlay-title">OUTRUN RACER</h3>
+              <p id="overlay-msg">USE [A] / [D] OR [←] / [→] TO STEER<br>PRESS [W] OR [↑] TO ACCELERATE</p>
+              <button id="btn-start-race" class="btn-play">INSERT COIN / START</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-controls-hint">
+          <span>[W] / [↑] ACCELERATE • [A][D] / [←][→] STEER</span>
+          <span>DODGE TRAFFIC • BEAT THE CLOCK</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: Garage Fleet -->
+    <section class="arcade-card">
+      <div class="card-topbar">
+        <span class="bar-title">SECTION 03 // GARAGE FLEET &amp; HORSEPOWER LOGS</span>
+      </div>
+      <div class="fleet-grid">
+
+        <article class="fleet-machine">
+          <div class="machine-class">SPEC #01 // WEB KERNEL ENGINE</div>
+          <h3>V.A.Y.U. WebOS</h3>
+          <p>Full desktop operating system built in vanilla JavaScript. Features custom draggable window physics, dynamic z-index layering, live terminal CLI, and real-time audio synthesis.</p>
+          <div class="spec-readout">
+            <div class="s-row"><span>POWER WEIGHT:</span><span>0 KB (NO LIBS)</span></div>
+            <div class="s-row"><span>INDUCTION:</span><span>VANILLA JS DOM</span></div>
+          </div>
+          <a href="https://dennispathe123.github.io/vayu-webos/" target="_blank" class="engine-btn">TEST DRIVE MACHINE →</a>
+        </article>
+
+        <article class="fleet-machine">
+          <div class="machine-class">SPEC #02 // HIGH-INERTIA TRAIL RIG</div>
+          <h3>29" 21-Speed Downhill MTB</h3>
+          <p>Mechanical cross-country rig dialed in for high-velocity descents. Features 3x7 high-ratio gearing, 29-inch high-inertia rolling stock, and a crown-mounted suspension lockout dial.</p>
+          <div class="spec-readout">
+            <div class="s-row"><span>TRANSMISSION:</span><span>21-SPEED (3x7)</span></div>
+            <div class="s-row"><span>CHASSIS:</span><span>LOCKOUT XC RIG</span></div>
+          </div>
+          <div class="engine-btn disabled">TUNED IN PIT</div>
+        </article>
+
+        <article class="fleet-machine">
+          <div class="machine-class">SPEC #03 // SILICON ECU &amp; FIRMWARE</div>
+          <h3>Arduino Micro-ECU</h3>
+          <p>Bare microcontroller testbeds running embedded C firmware loops. Interfaces with PWM motor drivers, optical tachometers, infrared telemetry, and light-dependent resistors.</p>
+          <div class="spec-readout">
+            <div class="s-row"><span>CONTROLLER:</span><span>ATMEGA328P</span></div>
+            <div class="s-row"><span>CLOCK:</span><span>16 MHZ BARE C</span></div>
+          </div>
+          <div class="engine-btn disabled">BENCH TESTED</div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SECTION 4: Engine Telemetry -->
+    <section class="arcade-card">
+      <div class="card-topbar">
+        <span class="bar-title">SECTION 04 // ENGINE TELEMETRY &amp; ECU CALIBRATION</span>
+      </div>
+      <div class="telemetry-layout">
+        
+        <div class="dyno-channels">
+          <h4>// ECU FUEL MAP &amp; CODE CALIBRATION</h4>
+          <div class="channel-unit">
+            <div class="channel-info"><span>PYTHON (ALGORITHMS &amp; SIMS)</span><span>90%</span></div>
+            <div class="gauge-slot"><div class="gauge-core" style="width: 90%;"></div></div>
+          </div>
+          <div class="channel-unit">
+            <div class="channel-info"><span>BARE C (LOW-LEVEL RUNTIMES)</span><span>80%</span></div>
+            <div class="gauge-slot"><div class="gauge-core" style="width: 80%;"></div></div>
+          </div>
+          <div class="channel-unit">
+            <div class="channel-info"><span>VANILLA JAVASCRIPT (DOM PHYSICS)</span><span>95%</span></div>
+            <div class="gauge-slot"><div class="gauge-core" style="width: 95%;"></div></div>
+          </div>
+          <div class="channel-unit">
+            <div class="channel-info"><span>EMBEDDED CIRCUITS &amp; ARDUINO</span><span>85%</span></div>
+            <div class="gauge-slot"><div class="gauge-core" style="width: 85%;"></div></div>
+          </div>
+        </div>
+
+        <div class="race-checklist">
+          <h4>// RACE ROADMAP &amp; LAP TARGETS</h4>
+          <ul class="lap-targets">
+            <li><span class="flag ok">🏁</span> Build V.A.Y.U. WebOS without npm</li>
+            <li><span class="flag ok">🏁</span> Deploy Cars for Speed Retro Garage</li>
+            <li><span class="flag ok">🏁</span> Playable OutRun 3D Perspective Racer</li>
+            <li><span class="flag pit">⏱</span> Indian Olympiad Qualifier in Math (IOQM)</li>
+            <li><span class="flag pit">⏱</span> Homi Bhabha Practical Lab Round</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="arcade-card footer-card">
+      <div class="checkered-stripe"></div>
+      <p class="footer-msg">★ CARS FOR SPEED // ENGINEERED WITH RAW HTML, CSS &amp; JS FOR HIGH SEAS ★</p>
+      <div class="pit-links">
+        <a href="https://github.com/dennispathe123" target="_blank">GITHUB REPOSITORY</a>
+        <span>•</span>
+        <a href="https://dennispathe123.github.io/vayu-webos/" target="_blank">TEST DRIVE V.A.Y.U.</a>
+      </div>
+      <div class="checkered-stripe"></div>
+    </footer>
+
+  </div>
+
+  <!-- SCRIPT: ECU LOADER & FIXED 3D OUTRUN RACER ENGINE -->
+  <script>
+    // 1. ECU Loader Boot Sequence
+    window.addEventListener("DOMContentLoaded", () => {
+      const loader = document.getElementById("arcade-loader");
+      const bar = document.getElementById("loader-bar");
+      const status = document.getElementById("loader-status");
+
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 18) + 12;
+        if (progress > 100) progress = 100;
+        if (bar) bar.style.width = progress + "%";
+        if (status) status.textContent = "LOADING STAGE: " + progress + "%";
+
+        if (progress >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            if (loader) {
+              loader.classList.add("fade-out");
+              setTimeout(() => { loader.style.display = "none"; }, 400);
+            }
+          }, 250);
+        }
+      }, 60);
+    });
+
+    // 2. OutRun Pseudo-3D Highway Engine
+    const canvas = document.getElementById("racerCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const timeDisplay = document.getElementById("game-time");
+    const scoreDisplay = document.getElementById("game-score");
+    const speedDisplay = document.getElementById("game-speed");
+    const overlay = document.getElementById("game-overlay");
+    const overlayTitle = document.getElementById("overlay-title");
+    const overlayMsg = document.getElementById("overlay-msg");
+    const startBtn = document.getElementById("btn-start-race");
+
+    const W = canvas.width;   // 340
+    const H = canvas.height;  // 420
+    const HORIZON = 140;
+    const ROAD_H = H - HORIZON;
+
+    let isPlaying = false;
+    let score = 0;
+    let timeLeft = 45;
+    let timerInterval = null;
+
+    let speed = 0;
+    const maxSpeed = 260;
+    let playerX = 0;
+    let steerTilt = 0;
+    let roadZ = 0;
+    let curveStrength = 0;
+    let targetCurve = 0;
+    let curveTimer = 0;
+    let parallaxSky = 0;
+
+    // Traffic Cars
+    let traffic = [];
+    const TRAFFIC_COLORS = ["#38bdf8", "#facc15", "#c084fc", "#22c55e"];
+
+    function resetTraffic() {
+      traffic = [];
+      for (let i = 0; i < 5; i++) {
+        traffic.push({
+          x: (Math.random() * 1.4) - 0.7,
+          z: 400 + i * 260,
+          speed: 70 + Math.random() * 35,
+          color: TRAFFIC_COLORS[i % TRAFFIC_COLORS.length]
+        });
+      }
+    }
+
+    // Input handlers
+    const keys = {};
+    window.addEventListener("keydown", (e) => {
+      if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "KeyA", "KeyD", "KeyW", "KeyS"].includes(e.code)) {
+        e.preventDefault();
+      }
+      keys[e.code] = true;
+    });
+
+    window.addEventListener("keyup", (e) => {
+      keys[e.code] = false;
+    });
+
+    startBtn.addEventListener("click", startGame);
+
+    function startGame() {
+      score = 0;
+      timeLeft = 45;
+      speed = 120;
+      playerX = 0;
+      roadZ = 0;
+      steerTilt = 0;
+      curveStrength = 0;
+      targetCurve = 0;
+      resetTraffic();
+
+      isPlaying = true;
+      overlay.style.display = "none";
+      if (timeDisplay) timeDisplay.textContent = timeLeft;
+      if (scoreDisplay) scoreDisplay.textContent = "0";
+      if (speedDisplay) speedDisplay.textContent = "120";
+
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (!isPlaying) return;
+        timeLeft--;
+        if (timeDisplay) timeDisplay.textContent = timeLeft;
+        if (timeLeft <= 0) {
+          endGame("TIME EXPIRED // RACE OVER");
+        }
+      }, 1000);
+    }
+
+    function endGame(reason) {
+      isPlaying = false;
+      if (timerInterval) clearInterval(timerInterval);
+      if (overlayTitle) overlayTitle.textContent = reason || "CRASHED! // WRECKED";
+      if (overlayMsg) overlayMsg.textContent = "FINAL SCORE: " + Math.floor(score) + " PTS";
+      if (startBtn) startBtn.textContent = "RETRY RACE / [START]";
+      if (overlay) overlay.style.display = "flex";
+    }
+
+    // Initialize traffic immediately
+    resetTraffic();
+
+    // Main Engine Render Loop
+    function gameLoop() {
+      // 1. SKY & DISTANT HORIZON
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, HORIZON);
+      skyGrad.addColorStop(0, "#08061a");
+      skyGrad.addColorStop(0.6, "#1e1138");
+      skyGrad.addColorStop(1, "#ef4444");
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, W, HORIZON);
+
+      // Parallax City Skyline
+      ctx.save();
+      ctx.translate(parallaxSky % 60, 0);
+      ctx.fillStyle = "#0c1224";
+      for (let i = -60; i < W + 60; i += 24) {
+        const bh = 14 + ((Math.abs(i) * 9) % 28);
+        ctx.fillRect(i, HORIZON - bh, 20, bh);
+      }
+      ctx.restore();
+
+      ctx.fillStyle = "#facc15";
+      ctx.fillRect(0, HORIZON - 1, W, 2);
+
+      // 2. PSEUDO-3D RASTER ROAD (Scanline Perspective)
+      for (let y = 0; y < ROAD_H; y++) {
+        const p = y / ROAD_H;
+        const z = 1 / (1 - p * 0.9);
+        const currentZ = roadZ + z * 18;
+        const isDark = Math.floor(currentZ / 35) % 2 === 0;
+
+        const screenY = HORIZON + y;
+        const roadW = 28 + (p * p) * 260;
+        const curveOffset = Math.sin(p * Math.PI * 0.5) * (curveStrength * 65);
+        const centerX = (W / 2) + curveOffset - (playerX * p * 70);
+
+        // Grass / Dirt Verge
+        ctx.fillStyle = isDark ? "#060914" : "#090f20";
+        ctx.fillRect(0, screenY, W, 1);
+
+        // Red / White OutRun Curbs
+        const curbW = 4 + p * 14;
+        ctx.fillStyle = isDark ? "#ef4444" : "#f8fafc";
+        ctx.fillRect(centerX - roadW / 2 - curbW, screenY, curbW, 1);
+        ctx.fillRect(centerX + roadW / 2, screenY, curbW, 1);
+
+        // Dark Asphalt
+        ctx.fillStyle = isDark ? "#121724" : "#1a2234";
+        ctx.fillRect(centerX - roadW / 2, screenY, roadW, 1);
+
+        // Center Dashed Stripes
+        if (isDark) {
+          const dashW = Math.max(1, p * 4);
+          ctx.fillStyle = "#facc15";
+          ctx.fillRect(centerX - dashW / 2, screenY, dashW, 1);
+        }
+      }
+
+      // 3. CONTROLS & PHYSICS
+      if (isPlaying) {
+        if (keys["ArrowUp"] || keys["KeyW"]) {
+          speed = Math.min(maxSpeed, speed + 1.2);
+        } else if (keys["ArrowDown"] || keys["KeyS"]) {
+          speed = Math.max(0, speed - 2.5);
+        } else {
+          speed = Math.max(40, speed - 0.3);
+        }
+
+        if (keys["ArrowLeft"] || keys["KeyA"]) {
+          playerX -= 0.032;
+          steerTilt = -1;
+          parallaxSky += 1.5;
+        } else if (keys["ArrowRight"] || keys["KeyD"]) {
+          playerX += 0.032;
+          steerTilt = 1;
+          parallaxSky -= 1.5;
+        } else {
+          steerTilt *= 0.8;
+        }
+
+        // Road Sweeping Curve Shifts
+        curveTimer++;
+        if (curveTimer > 180) {
+          targetCurve = (Math.random() - 0.5) * 1.8;
+          curveTimer = 0;
+        }
+        curveStrength += (targetCurve - curveStrength) * 0.02;
+        playerX -= curveStrength * 0.012;
+
+        // Keep player on road
+        if (playerX < -0.92) playerX = -0.92;
+        if (playerX > 0.92) playerX = 0.92;
+
+        roadZ += speed * 0.12;
+        score += speed * 0.02;
+
+        if (scoreDisplay) scoreDisplay.textContent = Math.floor(score);
+        if (speedDisplay) speedDisplay.textContent = Math.floor(speed);
+      }
+
+      // 4. TRAFFIC RENDERING & COLLISION (FIXED SIZE BOUNDS)
+      traffic.forEach((car) => {
+        if (isPlaying) {
+          car.z -= (speed - car.speed) * 0.12;
+          
+          // Despawn once car reaches bumper
+          if (car.z <= 100) {
+            car.z = 1300 + Math.random() * 400;
+            car.x = (Math.random() * 1.4) - 0.7;
+          }
+        }
+
+        // Only draw if within visible front distance
+        if (car.z > 100 && car.z < 1300) {
+          const rawScale = 140 / car.z;
+          const scale = Math.min(1.0, rawScale);
+          const p = Math.min(0.92, scale);
+
+          const screenY = HORIZON + (ROAD_H * p);
+          const roadW = 28 + (p * p) * 260;
+          const curveOffset = Math.sin(p * Math.PI * 0.5) * (curveStrength * 65);
+          const centerX = (W / 2) + curveOffset - (playerX * p * 70);
+          const screenX = centerX + (car.x * (roadW / 2));
+
+          const carW = Math.round(48 * scale);
+          const carH = Math.round(26 * scale);
+
+          if (screenY >= HORIZON && screenY <= H - 15) {
+            ctx.save();
+            ctx.translate(screenX, screenY);
+
+            // Ground Shadow
+            ctx.fillStyle = "rgba(0,0,0,0.55)";
+            ctx.beginPath();
+            ctx.ellipse(0, 0, carW * 0.55, carH * 0.25, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Body
+            ctx.fillStyle = car.color;
+            ctx.fillRect(-carW / 2, -carH, carW, carH);
+            ctx.fillStyle = "#0f172a";
+            ctx.fillRect(-carW * 0.35, -carH + Math.max(1, 3 * scale), carW * 0.7, carH * 0.35);
+
+            // Taillights
+            ctx.fillStyle = "#ef4444";
+            ctx.fillRect(-carW * 0.44, -carH * 0.4, carW * 0.2, carH * 0.25);
+            ctx.fillRect(carW * 0.24, -carH * 0.4, carW * 0.2, carH * 0.25);
+
+            ctx.restore();
+
+            // Collision check
+            if (isPlaying && car.z <= 160 && car.z >= 105) {
+              if (Math.abs(playerX - car.x) < 0.32) {
+                endGame("CRASHED! // CAR WRECKED");
+              }
+            }
+          }
+        }
+      });
+
+      // 5. PLAYER OUTRUN RED ROADSTER
+      const pX = W / 2;
+      const pY = H - 28;
+      const pW = 62;
+      const pH = 34;
+
+      ctx.save();
+      ctx.translate(pX, pY);
+      if (steerTilt !== 0) ctx.rotate(steerTilt * 0.05);
+
+      // Shadow
+      ctx.fillStyle = "rgba(0,0,0,0.7)";
+      ctx.beginPath();
+      ctx.ellipse(0, 4, pW * 0.55, 7, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Tires
+      ctx.fillStyle = "#030408";
+      ctx.fillRect(-pW * 0.52, -pH * 0.45, 10, 16);
+      ctx.fillRect(pW * 0.52 - 10, -pH * 0.45, 10, 16);
+
+      // Red Roadster Shell
+      ctx.fillStyle = "#991b1b";
+      ctx.fillRect(-pW / 2, -pH, pW, pH);
+      ctx.fillStyle = "#dc2626";
+      ctx.fillRect(-pW / 2 + 2, -pH + 2, pW - 4, pH - 4);
+
+      // Convertible Cockpit & Twin Headrests
+      ctx.fillStyle = "#090d16";
+      ctx.fillRect(-pW * 0.35, -pH + 2, pW * 0.7, pH * 0.35);
+      ctx.fillStyle = "#475569";
+      ctx.fillRect(-14, -pH - 1, 9, 6);
+      ctx.fillRect(5, -pH - 1, 9, 6);
+
+      // Taillights
+      ctx.fillStyle = "#ff0044";
+      ctx.shadowColor = "#ff0044";
+      ctx.shadowBlur = 8;
+      ctx.fillRect(-pW * 0.44, -pH * 0.45, 12, 6);
+      ctx.fillRect(pW * 0.44 - 12, -pH * 0.45, 12, 6);
+      ctx.shadowBlur = 0;
+
+      // Exhaust Pipes & Flames
+      ctx.fillStyle = "#94a3b8";
+      ctx.fillRect(-15, 1, 6, 3);
+      ctx.fillRect(9, 1, 6, 3);
+
+      if (isPlaying && speed > 140 && Math.random() > 0.35) {
+        ctx.fillStyle = "#38bdf8";
+        ctx.fillRect(-15, 4, 5, Math.random() * 8 + 4);
+        ctx.fillRect(10, 4, 5, Math.random() * 8 + 4);
+      }
+
+      ctx.restore();
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Start loop
+    requestAnimationFrame(gameLoop);
+  </script>
+
+</body>
+</html>
